@@ -22,15 +22,15 @@ from google.cloud import bigquery
 from code import download_blob
 from tempfile import TemporaryFile
 
-bucket_name = 'emp_png'
-key_path = "cloudkarya-internship-415b6b4ef0ff.json"
+# bucket_name = 'recognitionresults'
+key_path = "ck-eams-9260619158c0.json"
 client = storage.Client.from_service_account_json(key_path)  
-bucket = client.get_bucket(bucket_name)
+# bucket = client.get_bucket(bucket_name)
 bigquery_client = bigquery.Client.from_service_account_json(key_path)
 storage_client = storage.Client.from_service_account_json(key_path)
-PROJECT_ID = "cloudkarya-internship"
-DATASET_ID = "eams1"  # Remove any whitespaces around the dataset ID
-TABLE_ID = "ImageDataTable" 
+PROJECT_ID = "ck-eams"
+DATASET_ID = "eams24"  # Remove any whitespaces around the dataset ID
+TABLE_ID = "attendances" 
 
 def extract(request: Request):
     download_blob(bucket_name, source_file_name, dest_filename)
@@ -116,7 +116,7 @@ def lis( request : Request):
 # def convert_frames_to_jpeg(frames):
 #     converted_frames = []
 
-#     for frame in frames:
+#     for frame in frames: 
 #         # Convert the frame array to PIL format
 #         pil_image = Image.fromarray(frame)
 
@@ -397,7 +397,7 @@ async def get_data(request: Request, choose_date: str):
 
     query = f"""
          SELECT Name, Date, Time, EntryExit FROM {PROJECT_ID}.{DATASET_ID}.{TABLE_ID}
-         WHERE Date = '{choose_date}' AND Company = 'CloudKarya'
+         WHERE Date = '{choose_date}' AND Company = 'cloudKarya'
          ORDER BY Time ASC;"""
 
     df = bigquery_client.query(query).to_dataframe() 
